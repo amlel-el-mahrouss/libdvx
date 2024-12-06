@@ -5,7 +5,3 @@
 ------------------------------------------- */
 
 #include "qcore.h"
-
-QCoreSingleton::QCoreSingleton() {}
-
-QCoreSingleton::~QCoreSingleton() = default;

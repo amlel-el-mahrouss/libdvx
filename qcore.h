@@ -9,11 +9,16 @@
 
 #include "qt-core_global.h"
 
-class QT_CORE_EXPORT QCoreSingleton
-{
-public:
-    explicit QCoreSingleton();
-    ~QCoreSingleton();
-};
+/// @brief Singleton class.
+class QCoreSingleton;
+
+/// @brief Progress printer.
+class QCoreProgressPrinter;
+
+/// @brief DVX decoder and renderer class.
+class QCoreMediaWidget;
+
+/// @brief RDP stream class.
+class QCoreRTMPWidget;
 
 #endif // QCORE_H

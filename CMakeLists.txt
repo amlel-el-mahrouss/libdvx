@@ -12,6 +12,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 add_library(qt-core SHARED
+    libdvx.h
   qt-core_global.h
   qcore.cpp
   qcore.h
