@@ -10,46 +10,56 @@
 /// @brief Digital Video eXtended C++ library.
 /// @author Amlal EL Mahrouss from ELMH GROUP.
 
+#include "dvx_core_api.h"
+
 #include <unistd.h>
 #include <stdint.h>
 
-#define LIBDVX_VERSION (0x1000)
-#define LIBDVX_SUCCESS (0)
-#define LIBDVX_FAILURE (1)
-#define LIBDVX_NAME    "DVX Library"
-
-#define LIBDVX_STREAM : public DVXStreamInterface
+#define LIBDVX_STREAM : public ::DVXStreamInterface
 
 struct DVX_CONTAINER;
+struct DVX_CONTAINER_HEADER;
 
 class DVXStreamInterface;
 
-typedef uintptr_t dvx_result_t;
-typedef uint32_t dvx_error_t;
+enum class DVXStreamKind : int32_t
+{
+    kInvalidContainer,
+    kDrmContainer,
+    kVideoContainer,
+    kAudioContainer,
+    kSubtitleContainer,
+    kContainerCount,
+};
 
-typedef char** dvx_metadata_map_t;
-
-struct DVX_CONTAINER final
+struct LIBDVX_PACKED DVX_CONTAINER final
 {
     char c_name[256];
-    int32_t c_type;
+    DVXStreamKind c_type;
     int32_t c_ratio;
     size_t  c_size;
     uintptr_t c_offset;
 };
 
+
+struct LIBDVX_PACKED DVX_CONTAINER_HEADER final
+{
+    int32_t h_magic;
+    int32_t h_version;
+
+    size_t  h_file_size;
+    size_t  h_num_containers;
+    size_t  h_avg_ratio;
+
+    DVX_CONTAINER h_authors;
+    DVX_CONTAINER h_company;
+    DVX_CONTAINER h_year;
+    DVX_CONTAINER h_drm;
+};
+
 class DVXStreamInterface
 {
-private:
-    char* f_video_blob{nullptr};
-    size_t f_video_blob_sz{0};
-
-    struct DVX_CONTAINER** f_video_containers_offset{nullptr};
-    size_t f_video_containers_cnt{0};
-
 public:
-    operator bool();
-
     explicit DVXStreamInterface();
 
     DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
@@ -69,23 +79,12 @@ public:
 
 };
 
-enum class DVXStreamKind
-{
-    kInvalidContainer,
-    kDrmContainer,
-    kVideoContainer,
-    kAudioContainer,
-    kSubtitleContainer,
-    kContainerCount,
-};
-
-
 /**********************************************************************
  *
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
-dvx_result_t dvx_open_stream(const char* path_or_url, const char* otp, const void** out_framebuffer);
+dvx_result_t dvx_open_stream(const char* path_or_url);
 
 /**********************************************************************
  *
