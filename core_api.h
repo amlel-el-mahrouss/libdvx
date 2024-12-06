@@ -4,21 +4,24 @@
 
 ------------------------------------------- */
 
-#ifndef QCORE_H
-#define QCORE_H
+#ifndef CORE_API_H
+#define CORE_API_H
 
-#include "qt-core_global.h"
+#include "libdvx_global.h"
 
 /// @brief Singleton class.
-class QCoreSingleton;
+class QDVXPlayerSingleton;
+
+/// @brief Player interface.
+class QIDVXPlayer;
 
 /// @brief Progress printer.
-class QCoreProgressPrinter;
+class QDVXProgressPrinter;
 
 /// @brief DVX decoder and renderer class.
-class QCoreMediaWidget;
+class QDVXWidget;
 
 /// @brief RDP stream class.
-class QCoreRTMPWidget;
+class QDVXRTMPWidget;
 
-#endif // QCORE_H
+#endif // CORE_API_H
