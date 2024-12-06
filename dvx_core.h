@@ -61,9 +61,6 @@ public:
     }
 };
 
-dvx_result_t dvx_open_stream(const char* path_or_url, const char* otp, const void** out_framebuffer);
-dvx_error_t dvx_close_result(dvx_result_t result);
-
 enum class DVXStreamKind
 {
     kInvalidContainer,
@@ -73,5 +70,20 @@ enum class DVXStreamKind
     kSubtitleContainer,
     kContainerCount,
 };
+
+
+/**********************************************************************
+ *
+ * @brief Opens a stream with path_or_url.
+ *
+**********************************************************************/
+dvx_result_t dvx_open_stream(const char* path_or_url, const char* otp, const void** out_framebuffer);
+
+/**********************************************************************
+ *
+ * @brief Close stream using it's result.
+ *
+**********************************************************************/
+dvx_error_t dvx_close_stream(dvx_result_t result);
 
 #endif // DVX_CORE_H

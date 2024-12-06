@@ -24,4 +24,11 @@ class QDVXWidget;
 /// @brief RDP stream class.
 class QDVXRTMPWidget;
 
+/// @brief DVX object template and stream object.
+
+class DVXStream;
+class DVXObject;
+
+bool dvx_validate_url(const char* url);
+
 #endif // CORE_API_H
