@@ -14,8 +14,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 add_library(DVX SHARED
     dvx_core.h
     libdvx_global.h
-    core_api.cpp
-  core_api.h
+    dvx_core_api.cpp
+    dvx_core_api.h
   dvx_stream.cpp
 )
 

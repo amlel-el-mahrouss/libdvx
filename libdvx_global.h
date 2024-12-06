@@ -15,4 +15,6 @@
 #define QT_CORE_EXPORT Q_DECL_IMPORT
 #endif
 
+#include <stdexcept>
+
 #endif // QT_CORE_GLOBAL_H

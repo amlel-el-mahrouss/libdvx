@@ -7,58 +7,66 @@
 #ifndef DVX_CORE_H
 #define DVX_CORE_H
 
-/// @brief Digital Video eXtended codec and container.
+/// @brief Digital Video eXtended C++ library.
 /// @author Amlal EL Mahrouss from ELMH GROUP.
 
 #include <unistd.h>
-#include <signal.h>
 #include <stdint.h>
 
 #define LIBDVX_VERSION (0x1000)
 #define LIBDVX_SUCCESS (0)
 #define LIBDVX_FAILURE (1)
-#define LIBDVX_NAME    "DVX Playback Library"
+#define LIBDVX_NAME    "DVX Library"
 
-class DVXObject;
-class DVXStream;
+#define LIBDVX_STREAM : public DVXStreamInterface
+
+struct DVX_CONTAINER;
+
+class DVXStreamInterface;
 
 typedef uintptr_t dvx_result_t;
 typedef uint32_t dvx_error_t;
 
 typedef char** dvx_metadata_map_t;
 
-class DVXStream final
+struct DVX_CONTAINER final
+{
+    char c_name[256];
+    int32_t c_type;
+    int32_t c_ratio;
+    size_t  c_size;
+    uintptr_t c_offset;
+};
+
+class DVXStreamInterface
 {
 private:
     char* f_video_blob{nullptr};
     size_t f_video_blob_sz{0};
 
-    struct DVXObject* f_video_header_offset{nullptr};
-    struct DVXObject** f_video_containers_offset{nullptr};
-
+    struct DVX_CONTAINER** f_video_containers_offset{nullptr};
     size_t f_video_containers_cnt{0};
 
 public:
-    operator bool()
-    {
-        return this->f_video_blob && this->f_video_containers_offset && this->f_video_header_offset && this->f_video_containers_offset[0];
-    }
+    operator bool();
 
-    DVXStream() = default;
+    explicit DVXStreamInterface();
 
-    DVXStream& operator=(const DVXStream&) = default;
-    DVXStream(const DVXStream&)			 = default;
+    DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
+    DVXStreamInterface(const DVXStreamInterface&)			 = default;
 
-    ~DVXStream() noexcept
-    {
-        delete[] f_video_blob;
+    virtual ~DVXStreamInterface() noexcept;
 
-        this->f_video_header_offset = nullptr;
-        this->f_video_containers_offset = nullptr;
-        this->f_video_blob = nullptr;
-        this->f_video_blob_sz = 0UL;
-        this->f_video_containers_cnt = 0UL;
-    }
+    virtual void SetPathOrURL(const char* path_or_url) = 0;
+    virtual bool IsStreaming() noexcept = 0;
+    virtual bool InitStreamDVX() = 0;
+    virtual bool InitDVX() = 0;
+    virtual bool IsLocked() = 0;
+    virtual void FinishDVX() noexcept = 0;
+
+    virtual void Lock() = 0;
+    virtual void Unlock() = 0;
+
 };
 
 enum class DVXStreamKind

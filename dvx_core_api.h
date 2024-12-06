@@ -4,8 +4,8 @@
 
 ------------------------------------------- */
 
-#ifndef CORE_API_H
-#define CORE_API_H
+#ifndef DVX_CORE_API_H
+#define DVX_CORE_API_H
 
 #include "libdvx_global.h"
 
@@ -24,11 +24,11 @@ class QDVXWidget;
 /// @brief RDP stream class.
 class QDVXRTMPWidget;
 
-/// @brief DVX object template and stream object.
+/// @brief DVX stream interface.
+class DVXStreamInterface;
 
-class DVXStream;
-class DVXObject;
+using DVXException = std::runtime_error;
 
-bool dvx_validate_url(const char* url);
+bool dvx_validate_url(const char* url) noexcept;
 
-#endif // CORE_API_H
+#endif // DVX_CORE_API_H
