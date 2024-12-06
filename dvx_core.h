@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
-    Copyright (C) 2024, Amlal EL Mahrouss, all rights reserved.
+    Copyright (C) 2024, ELMH Group, all rights reserved.
 
 ------------------------------------------- */
 
@@ -8,7 +8,7 @@
 #define DVX_CORE_H
 
 /// @brief Digital Video eXtended codec and container.
-/// @author Amlal EL Mahrouss from Amlal EL Mahrouss.
+/// @author Amlal EL Mahrouss from ELMH GROUP.
 
 #include <unistd.h>
 #include <signal.h>
