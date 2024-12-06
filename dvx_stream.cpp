@@ -36,12 +36,8 @@ dvx_error_t dvx_close_result(dvx_result_t result)
 {
     DVXStream* strm = (DVXStream*)result;
 
-    if (!strm)
-    {
-        return LIBDVX_FAILURE;
-    }
-
-    if (strm->IsLocked())
+    if (!strm ||
+        strm->IsLocked())
     {
         return LIBDVX_FAILURE;
     }
@@ -49,6 +45,8 @@ dvx_error_t dvx_close_result(dvx_result_t result)
     strm->FinishDVX();
 
     delete strm;
+
+    strm = nullptr;
 
     return LIBDVX_SUCCESS;
 }
