@@ -75,7 +75,7 @@ dvx_error_t dvx_close_stream(dvx_result_t result)
  * @brief C++ constructor method.
  *
 **********************************************************************/
-DVXStreamInterface::DVXStreamInterface() = default;
+DVXStreamInterface::DVXStreamInterface() noexcept = default;
 
 /**********************************************************************
  *

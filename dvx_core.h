@@ -12,9 +12,6 @@
 
 #include "dvx_core_api.h"
 
-#include <unistd.h>
-#include <stdint.h>
-
 #define LIBDVX_STREAM : public ::DVXStreamInterface
 
 struct DVX_CONTAINER;
@@ -51,16 +48,14 @@ struct LIBDVX_PACKED DVX_CONTAINER_HEADER final
     size_t  h_num_containers;
     size_t  h_avg_ratio;
 
-    DVX_CONTAINER h_authors;
-    DVX_CONTAINER h_company;
-    DVX_CONTAINER h_year;
-    DVX_CONTAINER h_drm;
+    DVX_CONTAINER h_film_info;
+    DVX_CONTAINER h_author_info;
 };
 
 class DVXStreamInterface
 {
 public:
-    explicit DVXStreamInterface();
+    explicit DVXStreamInterface() noexcept;
 
     DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
     DVXStreamInterface(const DVXStreamInterface&)			 = default;

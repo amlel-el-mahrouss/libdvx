@@ -17,7 +17,7 @@ add_library(DVX SHARED
     dvx_core_api.cpp
     dvx_core_api.h
   dvx_stream.cpp
-  dvx_platform_qt.cpp
+  dvx_platform_tq.cpp
 )
 
 target_link_libraries(DVX PRIVATE Qt${QT_VERSION_MAJOR}::Core)

@@ -16,6 +16,8 @@
 #endif
 
 #include <stdexcept>
+#include <unistd.h>
+#include <stdint.h>
 
 #define LIBDVX_PACKED __attribute__((packed))
 #define LIBDVX_COMPILER "MinGW C++"
