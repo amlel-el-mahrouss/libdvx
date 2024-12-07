@@ -7,14 +7,10 @@
 #ifndef QT_CORE_GLOBAL_H
 #define QT_CORE_GLOBAL_H
 
-#include <QtCore/qglobal.h>
-
-#if defined(QT_CORE_LIBRARY)
-#define QT_CORE_EXPORT Q_DECL_EXPORT
-#else
-#define QT_CORE_EXPORT Q_DECL_IMPORT
-#endif
-
+#include <memory>
+#include <algorithm>
+#include <utility>
+#include <string>
 #include <stdexcept>
 #include <unistd.h>
 #include <stdint.h>

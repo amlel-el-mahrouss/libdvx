@@ -8,9 +8,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-
 add_library(DVX SHARED
     dvx_core.h
     libdvx_global.h
@@ -19,7 +16,3 @@ add_library(DVX SHARED
   dvx_stream.cpp
   dvx_platform_tq.cpp
 )
-
-target_link_libraries(DVX PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-
-target_compile_definitions(DVX PRIVATE QT_CORE_LIBRARY)
