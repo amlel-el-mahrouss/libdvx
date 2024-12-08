@@ -5,44 +5,26 @@
 ------------------------------------------- */
 
 #include <dvx_stream.h>
+#include <filesystem>
+#include <fstream>
 
 /// @brief Implementation of TQ decoding.
 /// @note TQ stands for Theather Quality.
 
-#define LIBDVX_VIDEO_SOURCE_MAX 255
-#define LIBDVX_BLACK_COLOR 0
+#define LIBDVX_VIDEO_SOURCE_MAX (255)
+#define LIBDVX_BLACK_COLOR 		(0)
+#define LIBDVX_WHITE_COLOR		(255)
 
 namespace TQ
 {
 	namespace Details
 	{
-		struct DVX_VIDEO_SOURCE final
+		struct DVX_ENCODE_FORMAT final
 		{
 			uint8_t red_c, green_c, blue_c;
 		};
 
-		struct DVX_AUDIO_SOURCE final
-		{
-			uint8_t is_left, is_right;
-
-			union
-			{
-				struct
-				{
-					uint8_t sign;
-					uint16_t exponent;
-					uint32_t mantissa;
-				} b32;
-				struct
-				{
-					uint8_t sign;
-					uint32_t exponent;
-					uint64_t mantissa;
-				} b64;
-			} wave;
-		};
-
-		bool tq_encode_region(struct DVX_VIDEO_SOURCE* in_region, struct DVX_VIDEO_SOURCE* out_region, size_t in_region_sz, size_t out_region_sz)
+		bool tq_encode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
 				return false;
@@ -75,7 +57,7 @@ namespace TQ
 			return true;
 		}
 
-		bool tq_decode_region(struct DVX_VIDEO_SOURCE* in_region, struct DVX_VIDEO_SOURCE* out_region, size_t in_region_sz, size_t out_region_sz)
+		bool tq_decode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
 				return false;
@@ -121,9 +103,9 @@ namespace TQ
 		DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
 		DVXStreamInterface(const DVXStreamInterface&)			 = default;
 
-		virtual void SetPathOrURL(const char* path_or_url) override { m_uri = path_or_url; }
+		virtual void SetPathOrURL(const char* path_or_url) override { m_uri_path = path_or_url; }
 
-		virtual bool IsStreaming() noexcept override { return dvx_validate_url(m_uri.c_str(), m_uri.size()); }
+		virtual bool IsStreaming() noexcept override { return dvx_validate_url(m_uri_path.c_str(), m_uri_path.size()); }
 
 		virtual bool InitStreamDVX() override
 		{
@@ -136,14 +118,12 @@ namespace TQ
 		{
 			if (this->IsStreaming()) return false;
 
-			
-
 			return true;
 		}
 
 		virtual bool IsLocked() override { return m_locked; }
 
-		virtual void FinishDVX() noexcept override { }
+		virtual void Finish() noexcept override { }
 
 		virtual void Lock() override { m_locked = true; }
 
@@ -153,30 +133,59 @@ namespace TQ
 		{
 			if (!in ||!out) return false;
 
-			return Details::tq_decode_region((Details::DVX_VIDEO_SOURCE*)in, (Details::DVX_VIDEO_SOURCE*)out, in_sz, out_sz);
+			this->m_encoded_blob = in;
+			this->m_encoded_size = in_sz;
+
+			return Details::tq_decode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
 		}
 
 		virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) override
 		{
 			if (!in ||!out) return false;
 
-			return Details::tq_encode_region((Details::DVX_VIDEO_SOURCE*)in, (Details::DVX_VIDEO_SOURCE*)out, in_sz, out_sz);
+			this->m_encoded_blob = out;
+			this->m_encoded_size = out_sz;
+
+			return Details::tq_encode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
 		}
 
-		virtual bool Close(const char* write_as) override
+		virtual bool Flush(const char* write_as) override
 		{
 			if (!write_as)
 				return false;
 
-			std::string file = write_as;
-			file += LIBDVX_EXT;
+			std::string file_path = write_as;
+			file_path += LIBDVX_EXT;
+
+			if (std::filesystem::exists(file_path))
+			{
+				return false;
+			}
+
+			std::ofstream file_container(file_path);
+			DVX_CONTAINER_HEADER header_dvx;
+
+			header_dvx.h_version = LIBDVX_CONTAINER_VERSION;
+			header_dvx.h_magic = LIBDVX_CONTAINER_MAGIC;
+
+			header_dvx.h_file_size = m_encoded_size;
+			header_dvx.h_cont_num = m_container_cnt;
+
+			header_dvx.h_avg_ratio = m_avg_ratio;
+
+			file_container.write(reinterpret_cast<char*>(&header_dvx), sizeof(DVX_CONTAINER_HEADER));
 
 			return true;
 		}
 
 	private:
-		std::string m_uri;
+		std::string m_uri_path;
+		void* m_encoded_blob{nullptr};
+		size_t m_encoded_size{0UL};
+		size_t m_container_cnt{0UL};
 		bool m_locked{false};
+		size_t m_file_size{0UL};
+		size_t m_avg_ratio{0UL};
 
 	};
 
@@ -185,7 +194,7 @@ namespace TQ
 }
 
 
-LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_preferred_encoder(const char* url)
+LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* url)
 {
 	::DVXStreamInterface* interface = new TQ::DVXStreamInterface();
 

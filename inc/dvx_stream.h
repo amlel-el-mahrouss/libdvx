@@ -19,6 +19,9 @@ struct DVX_CONTAINER_HEADER;
 
 class DVXStreamInterface;
 
+#define LIBDVX_CONTAINER_MAGIC (0xDD775)
+#define LIBDVX_CONTAINER_VERSION LIBDVX_VERSION
+
 enum class DVXStreamKind : int32_t
 {
     kInvalidContainer,
@@ -41,15 +44,18 @@ LIBDVX_PACKED(struct DVX_CONTAINER final
 
 LIBDVX_PACKED(struct DVX_CONTAINER_HEADER final
 {
-    int32_t h_magic;
+    int64_t h_magic;
     int32_t h_version;
+    int32_t h_type;
 
     size_t  h_file_size;
-    size_t  h_num_containers;
+    size_t  h_cont_num;
     size_t  h_avg_ratio;
 
-    DVX_CONTAINER h_film_info;
-    DVX_CONTAINER h_author_info;
+    char h_author[255];
+    char h_copyright[255];
+    
+    int32_t h_year;
 };)
 
 class DVXStreamInterface
@@ -66,7 +72,7 @@ public:
     virtual bool InitStreamDVX() = 0;
     virtual bool InitDVX() = 0;
     virtual bool IsLocked() = 0;
-    virtual void FinishDVX() noexcept = 0;
+    virtual void Finish() noexcept = 0;
 
     virtual void Lock() = 0;
     virtual void Unlock() = 0;
@@ -74,7 +80,7 @@ public:
 	virtual bool Decode(size_t out_sz, size_t in_sz, void* in, void* out) = 0;
 	virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) = 0;
 
-	virtual bool Close(const char* write_as) = 0;
+	virtual bool Flush(const char* write_as) = 0;
 
 };
 
@@ -87,9 +93,16 @@ DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept;
 
 /**********************************************************************
  *
- * @brief Close stream using it's result.
+ * @brief Flush stream using it's result.
  *
 **********************************************************************/
 dvx_error_t dvx_close_stream(DVXStreamInterface* result);
+
+/**********************************************************************
+ *
+ * @brief Plays the DVX stream.
+ *
+**********************************************************************/
+dvx_error_t dvx_play_stream(DVXStreamInterface* result);
 
 #endif // DVX_STREAM_H

@@ -5,42 +5,31 @@
 ------------------------------------------- */
 
 #include <dvx_core_api.h>
+#include <iostream>
 
 bool dvx_validate_url(const char* url, size_t url_len) noexcept
 {
-    if (!url_len ||
-        !url)
-        return false;
+	if (!url_len ||
+		!url)
+		return false;
 
-    for (int index_url = 0; index_url < url_len; ++index_url)
-    {
-        if (url[index_url] == ':')
-        {
-            for (; index_url < url_len; ++index_url)
-            {
+	for (size_t index_url = 0UL; index_url < url_len; ++index_url)
+	{
+		if (url[index_url] == ':')
+		{
+			++index_url;
+
+			if (url[index_url] == '/')
+			{
+				++index_url;
+
                 if (url[index_url] == '/')
-                {
-                    ++index_url;
+                    return true;
+			}
+		}
+	}
 
-                    for (; index_url < url_len; ++index_url)
-                    {
-                        if (url[index_url] == '/')
-                            return true;
-                        else
-                            return false;
+	std::cout << "Not an URL: " << url << "\n";
 
-                        break;
-                    }
-
-                    return false;
-                }
-
-                return false;
-            }
-
-            return false;
-        }
-    }
-
-    return false;
+	return false;
 }

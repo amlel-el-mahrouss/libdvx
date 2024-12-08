@@ -6,20 +6,21 @@
 
 #include <dvx_stream.h>
 
-LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_preferred_encoder(const char* path_or_url);
+LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* path_or_url);
 
 /**********************************************************************
  *
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
+
 DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept
 {
-	DVXStreamInterface* strm = dvx_open_preferred_encoder(path_or_url);
+	DVXStreamInterface* strm = dvx_open_fav_codec(path_or_url);
 
     if (!strm)
     {
-		throw DVXException("Out of system memory, fatal");
+		throw DVXException("Out of system memory, fatal.");
     }
 
     if (strm->IsLocked())
@@ -44,9 +45,10 @@ DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept
 
 /**********************************************************************
  *
- * @brief Close stream using it's result.
+ * @brief Flush stream using it's result.
  *
 **********************************************************************/
+
 dvx_error_t dvx_close_stream(DVXStreamInterface* result)
 {
     DVXStreamInterface* strm = result;
@@ -58,7 +60,7 @@ dvx_error_t dvx_close_stream(DVXStreamInterface* result)
     }
 
     strm->Lock();
-    strm->FinishDVX();
+    strm->Finish();
     strm->Unlock();
 
     delete strm;
@@ -70,9 +72,24 @@ dvx_error_t dvx_close_stream(DVXStreamInterface* result)
 
 /**********************************************************************
  *
+ * @brief Plays the DVX stream.
+ *
+**********************************************************************/
+
+dvx_error_t dvx_play_stream(DVXStreamInterface* result)
+{
+    if (!result)
+        return LIBDVX_FAILURE;
+
+    return LIBDVX_SUCCESS;
+}
+
+/**********************************************************************
+ *
  * @brief C++ constructor method.
  *
 **********************************************************************/
+
 DVXStreamInterface::DVXStreamInterface() noexcept = default;
 
 /**********************************************************************
@@ -80,4 +97,5 @@ DVXStreamInterface::DVXStreamInterface() noexcept = default;
  * @brief C++ destructor method.
  *
 **********************************************************************/
+
 DVXStreamInterface::~DVXStreamInterface() noexcept = default;
