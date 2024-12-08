@@ -88,7 +88,7 @@ public:
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
-DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept;
+DVXStreamInterface* dvx_open_stream(const char* path_or_url);
 
 /**********************************************************************
  *

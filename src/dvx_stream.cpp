@@ -14,13 +14,13 @@ LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* path_or_url);
  *
 **********************************************************************/
 
-DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept
+DVXStreamInterface* dvx_open_stream(const char* path_or_url)
 {
 	DVXStreamInterface* strm = dvx_open_fav_codec(path_or_url);
 
     if (!strm)
     {
-		throw DVXException("Out of system memory, fatal.");
+		throw DVXException("Out of system memory, FATAL!");
     }
 
     if (strm->IsLocked())
