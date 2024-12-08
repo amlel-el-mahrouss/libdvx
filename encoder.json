@@ -1,0 +1,14 @@
+{
+  "compiler_path": "g++",
+  "compiler_std": "c++20",
+  "headers_path": ["inc"],
+  "sources_path": [
+    "cli/dvx_encoder.cpp",
+    "src/dvx_core_api.cpp",
+    "src/dvx_platform_tq.cpp",
+    "src/dvx_stream.cpp"
+  ],
+  "output_name": "DVXEncode.exe",
+  "compiler_flags": [],
+  "run_after_build": false
+}

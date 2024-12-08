@@ -41,7 +41,7 @@ namespace TQ
 				auto diff_g = in_region[region_idx].green_c - LIBDVX_VIDEO_SOURCE_MAX;
 				auto diff_b = in_region[region_idx].blue_c - LIBDVX_VIDEO_SOURCE_MAX;
 
-					   // encode byte.
+				// encode byte.
 
 				out_region[region_idx].red_c = diff_r;
 				out_region[region_idx].green_c = diff_g;
@@ -49,7 +49,7 @@ namespace TQ
 
 				++region_idx;
 
-					   // we get the n_cnt from in.
+			    // we get the n_cnt from in.
 
 				out_region[region_idx] = in_region[region_idx];
 			}
@@ -94,14 +94,14 @@ namespace TQ
 	}
 
 	/// @brief Stream interface for the TQ algorithm.
-	class DVXStreamInterface LIBDVX_STREAM
+	class TQStreamInterface LIBDVX_STREAM
 	{
 	public:
-		explicit DVXStreamInterface() noexcept;
-		virtual ~DVXStreamInterface() noexcept;
+		explicit TQStreamInterface() noexcept;
+		virtual ~TQStreamInterface() noexcept;
 
-		DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
-		DVXStreamInterface(const DVXStreamInterface&)			 = default;
+		TQStreamInterface& operator=(const TQStreamInterface&) = default;
+		TQStreamInterface(const TQStreamInterface&)			 = default;
 
 		virtual void SetPathOrURL(const char* path_or_url) override { m_uri_path = path_or_url; }
 
@@ -164,8 +164,8 @@ namespace TQ
 
 	};
 
-	DVXStreamInterface::DVXStreamInterface() noexcept = default;
-	DVXStreamInterface::~DVXStreamInterface() noexcept = default;
+	TQStreamInterface::TQStreamInterface() noexcept = default;
+	TQStreamInterface::~TQStreamInterface() noexcept = default;
 }
 
 /**********************************************************************
@@ -177,7 +177,7 @@ namespace TQ
 
 LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* url)
 {
-	::DVXStreamInterface* interface = new TQ::DVXStreamInterface();
+	::DVXStreamInterface* interface = new TQ::TQStreamInterface();
 
 	if (!interface)
 		return nullptr;
