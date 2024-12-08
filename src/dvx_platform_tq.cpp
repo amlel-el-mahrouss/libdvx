@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
- Copyright (C) 2024 ELMH GROUP, all rights reserved.
+ Copyright (C) 2024 Amlal EL Mahrouss, all rights reserved.
 
 ------------------------------------------- */
 
@@ -107,9 +107,12 @@ namespace TQ
 
 		virtual bool IsStreaming() noexcept override { return dvx_validate_url(m_uri_path.c_str(), m_uri_path.size()); }
 
+		virtual bool IsPath() noexcept override { return std::filesystem::exists(m_uri_path); }
+
 		virtual bool InitStreamDVX() override
 		{
 			if (!this->IsStreaming()) return false;
+			if (this->IsPath()) return false;
 
 			return true;
 		}
@@ -117,6 +120,7 @@ namespace TQ
 		virtual bool InitDVX() override
 		{
 			if (this->IsStreaming()) return false;
+			if (!this->IsPath()) return false;
 
 			return true;
 		}
@@ -147,35 +151,6 @@ namespace TQ
 			this->m_encoded_size = out_sz;
 
 			return Details::tq_encode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
-		}
-
-		virtual bool Flush(const char* write_as) override
-		{
-			if (!write_as)
-				return false;
-
-			std::string file_path = write_as;
-			file_path += LIBDVX_EXT;
-
-			if (std::filesystem::exists(file_path))
-			{
-				return false;
-			}
-
-			std::ofstream file_container(file_path);
-			DVX_CONTAINER_HEADER header_dvx;
-
-			header_dvx.h_version = LIBDVX_CONTAINER_VERSION;
-			header_dvx.h_magic = LIBDVX_CONTAINER_MAGIC;
-
-			header_dvx.h_file_size = m_encoded_size;
-			header_dvx.h_cont_num = m_container_cnt;
-
-			header_dvx.h_avg_ratio = m_avg_ratio;
-
-			file_container.write(reinterpret_cast<char*>(&header_dvx), sizeof(DVX_CONTAINER_HEADER));
-
-			return true;
 		}
 
 	private:

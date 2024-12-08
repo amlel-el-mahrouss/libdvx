@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 ELMH GROUP, all rights reserved.
+	Copyright (C) 2024 Amlal EL Mahrouss, all rights reserved.
 
 ------------------------------------------- */
 
@@ -8,7 +8,7 @@
 #define DVX_STREAM_H
 
 /// @brief Digital Video eXtended C++ library.
-/// @author ELMH GROUP.
+/// @author Amlal EL Mahrouss.
 
 #include <dvx_core_api.h>
 
@@ -69,6 +69,7 @@ public:
 
     virtual void SetPathOrURL(const char* path_or_url) = 0;
     virtual bool IsStreaming() noexcept = 0;
+    virtual bool IsPath() noexcept = 0;
     virtual bool InitStreamDVX() = 0;
     virtual bool InitDVX() = 0;
     virtual bool IsLocked() = 0;
@@ -79,8 +80,6 @@ public:
 
 	virtual bool Decode(size_t out_sz, size_t in_sz, void* in, void* out) = 0;
 	virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) = 0;
-
-	virtual bool Flush(const char* write_as) = 0;
 
 };
 
@@ -93,7 +92,7 @@ DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept;
 
 /**********************************************************************
  *
- * @brief Flush stream using it's result.
+ * @brief Closes stream using it's result.
  *
 **********************************************************************/
 dvx_error_t dvx_close_stream(DVXStreamInterface* result);

@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 ELMH GROUP, all rights reserved.
+	Copyright (C) 2024 Amlal EL Mahrouss, all rights reserved.
 
 ------------------------------------------- */
 
@@ -45,7 +45,7 @@ DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept
 
 /**********************************************************************
  *
- * @brief Flush stream using it's result.
+ * @brief Closes stream using it's result.
  *
 **********************************************************************/
 
