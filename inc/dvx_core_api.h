@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 EL Mahrouss Amlal, all rights reserved.
+	Copyright (C) 2024 ELMH GROUP, all rights reserved.
 
 ------------------------------------------- */
 

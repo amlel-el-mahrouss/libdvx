@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 EL Mahrouss Amlal, all rights reserved.
+	Copyright (C) 2024 ELMH GROUP, all rights reserved.
 
 ------------------------------------------- */
 
@@ -8,7 +8,7 @@
 #define DVX_STREAM_H
 
 /// @brief Digital Video eXtended C++ library.
-/// @author EL Mahrouss Amlal.
+/// @author ELMH GROUP.
 
 #include <dvx_core_api.h>
 
