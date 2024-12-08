@@ -1,8 +1,12 @@
 /* -------------------------------------------
 
-    Copyright (C) 2024 ELMH GROUP, all rights reserved.
+ Copyright (C) 2024 ELMH GROUP, all rights reserved.
 
 ------------------------------------------- */
+
+extern "C" {
+#include <SDL2/SDL.h>
+}
 
 #include "dvx_core_api.h"
 #include "dvx_core.h"
@@ -14,82 +18,163 @@
 
 namespace TQ
 {
-    /// @brief Stream interface for the TQ algorithm.
-    class DVXStreamInterface LIBDVX_STREAM
-    {
-    public:
-        explicit DVXStreamInterface() noexcept;
-        virtual ~DVXStreamInterface() noexcept;
+	namespace Details
+	{
+		struct DVX_COLOR final
+		{
+			uint8_t r, g, b;
+		};
 
-        DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
-        DVXStreamInterface(const DVXStreamInterface&)			 = default;
+		bool tq_encode_region(struct DVX_COLOR* in_region, struct DVX_COLOR* out_region, size_t in_region_sz, size_t out_region_sz)
+		{
+			if (out_region_sz < in_region_sz)
+				return false;
 
-        virtual void SetPathOrURL(const char* path_or_url) override;
-        virtual bool IsStreaming() noexcept override;
-        virtual bool InitStreamDVX() override;
-        virtual bool InitDVX() override;
-        virtual bool IsLocked() override;
-        virtual void FinishDVX() noexcept override;
+			if (!in_region ||
+				!out_region)
+				return false;
 
-        virtual void Lock() override;
-        virtual void Unlock() override;
+			size_t n_cnt = 0UL;
 
-    };
+			for (size_t region_idx = 0; region_idx < in_region_sz; ++region_idx)
+			{
+				auto diff_r = in_region[region_idx].r - LIBDVX_COLOR_MAX;
+				auto diff_g = in_region[region_idx].g - LIBDVX_COLOR_MAX;
+				auto diff_b = in_region[region_idx].b - LIBDVX_COLOR_MAX;
 
-    DVXStreamInterface::DVXStreamInterface() noexcept = default;
-    DVXStreamInterface::~DVXStreamInterface() noexcept = default;
+					   // encode byte.
 
-    namespace Details
-    {
-        struct DVX_COLOR final
-        {
-            uint8_t r, g, b;
-        };
+				out_region[region_idx].r = diff_r;
+				out_region[region_idx].g = diff_g;
+				out_region[region_idx].b = diff_b;
 
-        bool tq_decode_region(struct DVX_COLOR* in_region, struct DVX_COLOR* out_region, size_t in_region_sz, size_t out_region_sz)
-        {
-            if (out_region_sz < in_region_sz)
-                return false;
+				++region_idx;
 
-            if (!in_region ||
-                !out_region)
-                return false;
+					   // we get the n_cnt from in.
 
-            size_t n_cnt = 0UL;
+				out_region[region_idx] = in_region[region_idx];
+			}
 
-            for (size_t region_idx = 0; region_idx < in_region_sz; ++region_idx)
-            {
-                auto diff_r = in_region[region_idx].r - LIBDVX_COLOR_MAX;
-                auto diff_g = in_region[region_idx].g - LIBDVX_COLOR_MAX;
-                auto diff_b = in_region[region_idx].b - LIBDVX_COLOR_MAX;
+			return true;
+		}
 
-                n_cnt = *(uintptr_t*)&in_region[region_idx + 1];
-                n_cnt += region_idx;
+		bool tq_decode_region(struct DVX_COLOR* in_region, struct DVX_COLOR* out_region, size_t in_region_sz, size_t out_region_sz)
+		{
+			if (out_region_sz < in_region_sz)
+				return false;
 
-                for (size_t cnt_index = region_idx; cnt_index < (n_cnt); ++cnt_index)
-                {
-                    out_region[cnt_index].r = diff_r * LIBDVX_COLOR_MAX;
-                    out_region[cnt_index].g = diff_g * LIBDVX_COLOR_MAX;
-                    out_region[cnt_index].b = diff_b * LIBDVX_COLOR_MAX;
-                }
+			if (!in_region ||
+				!out_region)
+				return false;
 
-                ++region_idx;
-            }
+			size_t n_cnt = 0UL;
 
-            return true;
-        }
-    }
+			for (size_t region_idx = 0; region_idx < in_region_sz; ++region_idx)
+			{
+				auto diff_r = in_region[region_idx].r;
+				auto diff_g = in_region[region_idx].g;
+				auto diff_b = in_region[region_idx].b;
+
+				n_cnt = *(uintptr_t*)&in_region[region_idx + 1];
+				n_cnt += region_idx;
+
+					   // output the data as we are getting n times it.
+
+				for (size_t cnt_index = region_idx; cnt_index < (n_cnt); ++cnt_index)
+				{
+					out_region[cnt_index].r = diff_r + LIBDVX_COLOR_MAX;
+					out_region[cnt_index].g = diff_g + LIBDVX_COLOR_MAX;
+					out_region[cnt_index].b = diff_b + LIBDVX_COLOR_MAX;
+				}
+
+				++region_idx;
+			}
+
+			return true;
+		}
+	}
+
+	/// @brief Stream interface for the TQ algorithm.
+	class DVXStreamInterface LIBDVX_STREAM
+	{
+	public:
+		explicit DVXStreamInterface() noexcept;
+		virtual ~DVXStreamInterface() noexcept;
+
+		DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
+		DVXStreamInterface(const DVXStreamInterface&)			 = default;
+
+		virtual void SetPathOrURL(const char* path_or_url) override { m_uri = path_or_url; }
+		virtual bool IsStreaming() noexcept override { return dvx_validate_url(m_uri.c_str(), m_uri.size()); }
+
+		virtual bool InitStreamDVX() override
+		{
+			if (!this->IsStreaming()) return false;
+
+			return true;
+		}
+
+		virtual bool InitDVX() override
+		{
+			if (this->IsStreaming()) return false;
+
+			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+			return true;
+		}
+
+		virtual bool IsLocked() override { return m_locked; }
+
+		virtual void FinishDVX() noexcept override { SDL_Quit(); }
+
+		virtual void Lock() override { m_locked = true; }
+
+		virtual void Unlock() override { m_locked = false; }
+
+		virtual bool Decode(size_t out_sz, size_t in_sz, void* in, void* out) override
+		{
+			if (!in ||!out) return false;
+
+			return Details::tq_decode_region((Details::DVX_COLOR*)in, (Details::DVX_COLOR*)out, in_sz, out_sz);
+		}
+
+		virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) override
+		{
+			if (!in ||!out) return false;
+
+			return Details::tq_encode_region((Details::DVX_COLOR*)in, (Details::DVX_COLOR*)out, in_sz, out_sz);
+		}
+
+		virtual bool Close(const char* write_as) override
+		{
+			if (!write_as)
+				return false;
+
+			std::string file = write_as;
+			file += LIBDVX_EXT;
+
+			return true;
+		}
+
+	private:
+		std::string m_uri;
+		bool m_locked{false};
+
+	};
+
+	DVXStreamInterface::DVXStreamInterface() noexcept = default;
+	DVXStreamInterface::~DVXStreamInterface() noexcept = default;
 }
 
 
-extern "C" DVXStreamInterface* dvx_open_platform_stream(const char* url)
+extern "C" DVXStreamInterface* dvx_open_preferred_encoder(const char* url)
 {
-    ::DVXStreamInterface* interface = new TQ::DVXStreamInterface();
+	::DVXStreamInterface* interface = new TQ::DVXStreamInterface();
 
-    if (!interface)
-        return nullptr;
+	if (!interface)
+		return nullptr;
 
-    interface->SetPathOrURL(url);
+	interface->SetPathOrURL(url);
 
-    return interface;
+	return interface;
 }

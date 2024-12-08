@@ -56,11 +56,10 @@ class DVXStreamInterface
 {
 public:
     explicit DVXStreamInterface() noexcept;
+    virtual ~DVXStreamInterface() noexcept;
 
     DVXStreamInterface& operator=(const DVXStreamInterface&) = default;
     DVXStreamInterface(const DVXStreamInterface&)			 = default;
-
-    virtual ~DVXStreamInterface() noexcept;
 
     virtual void SetPathOrURL(const char* path_or_url) = 0;
     virtual bool IsStreaming() noexcept = 0;
@@ -71,6 +70,11 @@ public:
 
     virtual void Lock() = 0;
     virtual void Unlock() = 0;
+
+	virtual bool Decode(size_t out_sz, size_t in_sz, void* in, void* out) = 0;
+	virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) = 0;
+
+	virtual bool Close(const char* write_as) = 0;
 
 };
 

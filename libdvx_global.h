@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
-    Copyright (C) 2024, Amlal EL Mahrouss, all rights reserved.
+ Copyright (C) 2024, Amlal EL Mahrouss, all rights reserved.
 
 ------------------------------------------- */
 
@@ -15,6 +15,10 @@
 #include <unistd.h>
 #include <stdint.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #define LIBDVX_PACKED __attribute__((packed))
 #define LIBDVX_COMPILER "MinGW C++"
 
@@ -22,5 +26,6 @@
 #define LIBDVX_SUCCESS (0)
 #define LIBDVX_FAILURE (1)
 #define LIBDVX_NAME    "DVX Library"
+#define LIBDVX_EXT ".dvx"
 
 #endif // QT_CORE_GLOBAL_H

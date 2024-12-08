@@ -16,3 +16,5 @@ add_library(DVX SHARED
   dvx_stream.cpp
   dvx_platform_tq.cpp
 )
+
+target_link_libraries(DVX SDL2)

@@ -6,7 +6,7 @@
 
 #include "dvx_core.h"
 
-extern "C" DVXStreamInterface* dvx_open_platform_stream(const char* path_or_url);
+extern "C" DVXStreamInterface* dvx_open_preferred_encoder(const char* path_or_url);
 
 /**********************************************************************
  *
@@ -15,7 +15,7 @@ extern "C" DVXStreamInterface* dvx_open_platform_stream(const char* path_or_url)
 **********************************************************************/
 dvx_result_t dvx_open_stream(const char* path_or_url)
 {
-    DVXStreamInterface* strm = dvx_open_platform_stream(path_or_url);
+	DVXStreamInterface* strm = dvx_open_preferred_encoder(path_or_url);
 
     if (!strm)
     {
@@ -32,14 +32,10 @@ dvx_result_t dvx_open_stream(const char* path_or_url)
         throw DVXException("URL is not correct. (URL required: YES)");
     }
 
-    if (strm->IsStreaming())
-    {
-        strm->InitStreamDVX();
-    }
-    else
-    {
-        strm->InitDVX();
-    }
+	if (!strm->InitStreamDVX())
+	{
+		strm->InitDVX();
+	}
 
     return reinterpret_cast<dvx_result_t>(strm);
 }
