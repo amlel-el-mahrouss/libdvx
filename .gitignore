@@ -9,9 +9,12 @@
 *.moc
 *.o
 *.obj
+*.wasm
+*.html
 *.orig
 *.rej
 *.so
+*.js
 *.so.*
 *_pch.h.cpp
 *_resource.rc

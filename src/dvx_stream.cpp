@@ -13,7 +13,7 @@ LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_preferred_encoder(const char* path_
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
-dvx_result_t dvx_open_stream(const char* path_or_url) noexcept
+DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept
 {
 	DVXStreamInterface* strm = dvx_open_preferred_encoder(path_or_url);
 
@@ -31,7 +31,7 @@ dvx_result_t dvx_open_stream(const char* path_or_url) noexcept
 
 		std::printf("URL is not correct. (URL required: YES)");
 
-		return 0;
+		return nullptr;
 	}
 
 	if (!strm->InitStreamDVX())
@@ -39,7 +39,7 @@ dvx_result_t dvx_open_stream(const char* path_or_url) noexcept
 		strm->InitDVX();
 	}
 
-    return reinterpret_cast<dvx_result_t>(strm);
+    return strm;
 }
 
 /**********************************************************************
@@ -47,9 +47,9 @@ dvx_result_t dvx_open_stream(const char* path_or_url) noexcept
  * @brief Close stream using it's result.
  *
 **********************************************************************/
-dvx_error_t dvx_close_stream(dvx_result_t result)
+dvx_error_t dvx_close_stream(DVXStreamInterface* result)
 {
-    DVXStreamInterface* strm = (DVXStreamInterface*)result;
+    DVXStreamInterface* strm = result;
 
     if (!strm ||
         strm->IsLocked())

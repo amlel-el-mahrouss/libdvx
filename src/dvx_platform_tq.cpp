@@ -136,14 +136,14 @@ namespace TQ
 		{
 			if (this->IsStreaming()) return false;
 
-			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+			
 
 			return true;
 		}
 
 		virtual bool IsLocked() override { return m_locked; }
 
-		virtual void FinishDVX() noexcept override { SDL_Quit(); }
+		virtual void FinishDVX() noexcept override { }
 
 		virtual void Lock() override { m_locked = true; }
 

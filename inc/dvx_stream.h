@@ -29,17 +29,17 @@ enum class DVXStreamKind : int32_t
     kContainerCount,
 };
 
-struct LIBDVX_PACKED DVX_CONTAINER final
+LIBDVX_PACKED(struct DVX_CONTAINER final
 {
     char c_name[256];
     DVXStreamKind c_type;
     int32_t c_ratio;
     size_t  c_size;
     uintptr_t c_offset;
-};
+};)
 
 
-struct LIBDVX_PACKED DVX_CONTAINER_HEADER final
+LIBDVX_PACKED(struct DVX_CONTAINER_HEADER final
 {
     int32_t h_magic;
     int32_t h_version;
@@ -50,7 +50,7 @@ struct LIBDVX_PACKED DVX_CONTAINER_HEADER final
 
     DVX_CONTAINER h_film_info;
     DVX_CONTAINER h_author_info;
-};
+};)
 
 class DVXStreamInterface
 {
@@ -83,13 +83,13 @@ public:
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
-dvx_result_t dvx_open_stream(const char* path_or_url) noexcept;
+DVXStreamInterface* dvx_open_stream(const char* path_or_url) noexcept;
 
 /**********************************************************************
  *
  * @brief Close stream using it's result.
  *
 **********************************************************************/
-dvx_error_t dvx_close_stream(dvx_result_t result);
+dvx_error_t dvx_close_stream(DVXStreamInterface* result);
 
 #endif // DVX_STREAM_H

@@ -1,2 +1,4 @@
-./inc
+-I./inc
 -std=c++20
+-I../emsdk/upstream/lib/clang/20/include
+-D__EMSCRIPTEN__
