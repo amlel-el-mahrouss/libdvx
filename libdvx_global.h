@@ -4,8 +4,8 @@
 
 ------------------------------------------- */
 
-#ifndef QT_CORE_GLOBAL_H
-#define QT_CORE_GLOBAL_H
+#ifndef DVX_GLOBAL_H
+#define DVX_GLOBAL_H
 
 #include <memory>
 #include <algorithm>
@@ -28,4 +28,4 @@
 #define LIBDVX_NAME    "DVX Library"
 #define LIBDVX_EXT ".dvx"
 
-#endif // QT_CORE_GLOBAL_H
+#endif // DVX_GLOBAL_H
