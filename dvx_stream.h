@@ -1,14 +1,14 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 Amlal EL Mahrouss, all rights reserved.
+	Copyright (C) 2024 ELMH GROUP, all rights reserved.
 
 ------------------------------------------- */
 
-#ifndef DVX_CORE_H
-#define DVX_CORE_H
+#ifndef DVX_STREAM_H
+#define DVX_STREAM_H
 
 /// @brief Digital Video eXtended C++ library.
-/// @author Amlal EL Mahrouss from Amlal EL Mahrouss.
+/// @author ELMH GROUP from ELMH GROUP.
 
 #include "dvx_core_api.h"
 
@@ -83,7 +83,7 @@ public:
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
-dvx_result_t dvx_open_stream(const char* path_or_url);
+dvx_result_t dvx_open_stream(const char* path_or_url) noexcept;
 
 /**********************************************************************
  *
@@ -92,4 +92,4 @@ dvx_result_t dvx_open_stream(const char* path_or_url);
 **********************************************************************/
 dvx_error_t dvx_close_stream(dvx_result_t result);
 
-#endif // DVX_CORE_H
+#endif // DVX_STREAM_H

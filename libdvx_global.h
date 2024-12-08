@@ -1,6 +1,6 @@
 /* -------------------------------------------
 
- Copyright (C) 2024, Amlal EL Mahrouss, all rights reserved.
+ Copyright (C) 2024, ELMH GROUP, all rights reserved.
 
 ------------------------------------------- */
 
@@ -15,9 +15,7 @@
 #include <unistd.h>
 #include <stdint.h>
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#endif
+#define LIBDVX_EXTERN_C extern "C"
 
 #define LIBDVX_PACKED __attribute__((packed))
 #define LIBDVX_COMPILER "MinGW C++"

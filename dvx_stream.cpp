@@ -1,36 +1,38 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 Amlal EL Mahrouss, all rights reserved.
+	Copyright (C) 2024 ELMH GROUP, all rights reserved.
 
 ------------------------------------------- */
 
-#include "dvx_core.h"
+#include "dvx_stream.h"
 
-extern "C" DVXStreamInterface* dvx_open_preferred_encoder(const char* path_or_url);
+LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_preferred_encoder(const char* path_or_url);
 
 /**********************************************************************
  *
  * @brief Opens a stream with path_or_url.
  *
 **********************************************************************/
-dvx_result_t dvx_open_stream(const char* path_or_url)
+dvx_result_t dvx_open_stream(const char* path_or_url) noexcept
 {
 	DVXStreamInterface* strm = dvx_open_preferred_encoder(path_or_url);
 
     if (!strm)
     {
-        throw DVXException("Out of memory");
+		throw DVXException("Out of system memory, fatal");
     }
 
     if (strm->IsLocked())
     {
         if (!path_or_url)
         {
-            throw DVXException("URL is not provided. (URL required: YES)");
+			std::printf("URL is not provided. (URL required: YES)");
         }
 
-        throw DVXException("URL is not correct. (URL required: YES)");
-    }
+		std::printf("URL is not correct. (URL required: YES)");
+
+		return 0;
+	}
 
 	if (!strm->InitStreamDVX())
 	{

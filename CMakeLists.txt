@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(DVX SHARED
-    dvx_core.h
+    dvx_stream.h
     libdvx_global.h
     dvx_core_api.cpp
     dvx_core_api.h
