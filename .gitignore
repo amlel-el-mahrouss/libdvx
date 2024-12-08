@@ -10,7 +10,7 @@
 *.o
 *.obj
 *.wasm
-*.html
+DVX.html
 *.orig
 *.rej
 *.so

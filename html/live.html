@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVX News Network</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+        }
+
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.7);
+        }
+
+        .pause-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #9370DB, #FF1493);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(147, 112, 219, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pause-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(147, 112, 219, 0.7);
+        }
+
+        .pause-icon {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pause-bar {
+            width: 8px;
+            height: 24px;
+            background-color: white;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="../DVX.js"></script>
+    <div class="title">
+        <svg width="134" height="134" viewBox="0 0 134 134" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_di_2404_6)">
+                <path d="M120.6 46.9H13.0469V87.1H120.6V46.9Z" fill="url(#paint0_linear_2404_6)" />
+                <path d="M120.6 46.9H13.0469V87.1H120.6V46.9Z" fill="url(#paint1_linear_2404_6)" fill-opacity="0.59" />
+                <path d="M120.423 47.0763H13.2227V86.9237H120.423V47.0763Z" stroke="white" />
+            </g>
+            <path
+                d="M23.5312 79.6948C23.5312 75.7453 23.5312 71.7489 23.5312 67.7053C23.5312 63.6617 23.5312 59.6653 23.5312 55.7158C24.9418 55.7158 26.364 55.7158 27.7981 55.7158C29.2321 55.7158 30.6544 55.7158 32.0649 55.7158C33.8046 55.7158 35.4031 56.0216 36.8609 56.6327C38.3183 57.2205 39.5878 58.0548 40.6693 59.1363C41.7505 60.2179 42.5852 61.4873 43.173 62.9448C43.7841 64.3789 44.0898 65.9538 44.0898 67.67C44.0898 69.3863 43.7841 70.9731 43.173 72.4306C42.5852 73.888 41.7505 75.1694 40.6693 76.2742C39.5878 77.3558 38.3183 78.2021 36.8609 78.8132C35.4031 79.401 33.8046 79.6948 32.0649 79.6948C30.6544 79.6948 29.2321 79.6948 27.7981 79.6948C26.364 79.6948 24.9418 79.6948 23.5312 79.6948ZM32.0649 61.2874C31.6888 61.2874 31.3009 61.2874 30.9013 61.2874C30.5016 61.2874 30.1019 61.2874 29.7023 61.2874C29.7023 63.4032 29.7023 65.5426 29.7023 67.7053C29.7023 69.868 29.7023 72.0074 29.7023 74.1232C30.1019 74.1232 30.5016 74.1232 30.9013 74.1232C31.3009 74.1232 31.6888 74.1232 32.0649 74.1232C33.2404 74.1232 34.263 73.8411 35.1328 73.2769C36.0026 72.7127 36.6726 71.9485 37.143 70.9848C37.6131 69.9974 37.8483 68.8926 37.8483 67.67C37.8483 66.4475 37.6131 65.3543 37.143 64.3906C36.6726 63.4268 36.0026 62.6743 35.1328 62.1337C34.263 61.5695 33.2404 61.2874 32.0649 61.2874ZM56.6333 79.6948C56.6333 75.7453 56.6333 71.7489 56.6333 67.7053C56.6333 63.6617 56.6333 59.6653 56.6333 55.7158C57.6676 55.7158 58.7018 55.7158 59.7365 55.7158C60.7944 55.7158 61.8286 55.7158 62.8396 55.7158C64.0855 57.949 65.3433 60.2059 66.6128 62.4863C67.9055 64.7668 69.175 67.0237 70.4212 69.2569C70.4212 67.0237 70.4212 64.7668 70.4212 62.4863C70.4212 60.2059 70.4212 57.949 70.4212 55.7158C71.4318 55.7158 72.4428 55.7158 73.4538 55.7158C74.4645 55.7158 75.4755 55.7158 76.4865 55.7158C76.4865 59.6653 76.4865 63.6617 76.4865 67.7053C76.4865 71.7489 76.4865 75.7453 76.4865 79.6948C75.4755 79.6948 74.4412 79.6948 73.3833 79.6948C72.3487 79.6948 71.3144 79.6948 70.2801 79.6948C69.0339 77.4616 67.7645 75.2047 66.4717 72.9242C65.2023 70.6438 63.9444 68.3869 62.6986 66.1537C62.6986 68.3869 62.6986 70.6438 62.6986 72.9242C62.6986 75.2047 62.6986 77.4616 62.6986 79.6948C61.6876 79.6948 60.6766 79.6948 59.6659 79.6948C58.6549 79.6948 57.6439 79.6948 56.6333 79.6948ZM90.2518 79.6948C90.2518 75.7453 90.2518 71.7489 90.2518 67.7053C90.2518 63.6617 90.2518 59.6653 90.2518 55.7158C91.2861 55.7158 92.3203 55.7158 93.3549 55.7158C94.4128 55.7158 95.4471 55.7158 96.4581 55.7158C97.704 57.949 98.9618 60.2059 100.231 62.4863C101.524 64.7668 102.793 67.0237 104.04 69.2569C104.04 67.0237 104.04 64.7668 104.04 62.4863C104.04 60.2059 104.04 57.949 104.04 55.7158C105.05 55.7158 106.061 55.7158 107.072 55.7158C108.083 55.7158 109.094 55.7158 110.105 55.7158C110.105 59.6653 110.105 63.6617 110.105 67.7053C110.105 71.7489 110.105 75.7453 110.105 79.6948C109.094 79.6948 108.06 79.6948 107.002 79.6948C105.967 79.6948 104.933 79.6948 103.899 79.6948C102.652 77.4616 101.383 75.2047 100.09 72.9242C98.8207 70.6438 97.5629 68.3869 96.317 66.1537C96.317 68.3869 96.317 70.6438 96.317 72.9242C96.317 75.2047 96.317 77.4616 96.317 79.6948C95.3061 79.6948 94.2951 79.6948 93.2844 79.6948C92.2734 79.6948 91.2624 79.6948 90.2518 79.6948Z"
+                fill="white" />
+            <defs>
+                <filter id="filter0_di_2404_6" x="8.72266" y="46.5763" width="116.199" height="48.8474"
+                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                        result="hardAlpha" />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2404_6" />
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2404_6" result="shape" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                        result="hardAlpha" />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                    <feBlend mode="normal" in2="shape" result="effect2_innerShadow_2404_6" />
+                </filter>
+                <linearGradient id="paint0_linear_2404_6" x1="13.0469" y1="87.1" x2="120.6" y2="87.1"
+                    gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#001AFF" stop-opacity="0.3" />
+                    <stop offset="1" stop-color="#B20000" />
+                </linearGradient>
+                <linearGradient id="paint1_linear_2404_6" x1="13.0469" y1="67" x2="120.6" y2="67"
+                    gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#001AFF" stop-opacity="0.3" />
+                    <stop offset="0.496" stop-color="#AA00FF" stop-opacity="0.496" />
+                    <stop offset="1" stop-color="#EA0000" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+    <h1 class="title">ON LIVE.</h1>
+    <div class="pause-button">
+        <div class="pause-icon">
+            <div class="pause-bar"></div>
+            <div class="pause-bar"></div>
+        </div>
+    </div>
+</body>
+
+</html>

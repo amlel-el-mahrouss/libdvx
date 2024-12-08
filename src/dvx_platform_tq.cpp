@@ -193,6 +193,12 @@ namespace TQ
 	DVXStreamInterface::~DVXStreamInterface() noexcept = default;
 }
 
+/**********************************************************************
+ *
+ * @brief Creates a favourite codecs
+ * @param url The URL to stream on (channel)
+ *
+**********************************************************************/
 
 LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* url)
 {
