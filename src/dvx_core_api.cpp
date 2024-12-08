@@ -1,10 +1,10 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 ELMH GROUP, all rights reserved.
+	Copyright (C) 2024 EL Mahrouss Amlal, all rights reserved.
 
 ------------------------------------------- */
 
-#include "dvx_core_api.h"
+#include <dvx_core_api.h>
 
 bool dvx_validate_url(const char* url, size_t url_len) noexcept
 {

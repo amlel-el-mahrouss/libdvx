@@ -1,13 +1,13 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 ELMH GROUP, all rights reserved.
+	Copyright (C) 2024 EL Mahrouss Amlal, all rights reserved.
 
 ------------------------------------------- */
 
 #ifndef DVX_CORE_API_H
 #define DVX_CORE_API_H
 
-#include "libdvx_global.h"
+#include <libdvx_global.h>
 
 /// @brief DVX stream interface.
 class DVXStreamInterface;

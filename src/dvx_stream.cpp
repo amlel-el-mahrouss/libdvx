@@ -1,10 +1,10 @@
 /* -------------------------------------------
 
-	Copyright (C) 2024 ELMH GROUP, all rights reserved.
+	Copyright (C) 2024 EL Mahrouss Amlal, all rights reserved.
 
 ------------------------------------------- */
 
-#include "dvx_stream.h"
+#include <dvx_stream.h>
 
 LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_preferred_encoder(const char* path_or_url);
 

@@ -1,17 +1,13 @@
 /* -------------------------------------------
 
- Copyright (C) 2024 ELMH GROUP, all rights reserved.
+ Copyright (C) 2024 EL Mahrouss Amlal, all rights reserved.
 
 ------------------------------------------- */
 
-extern "C" {
-#include <SDL2/SDL.h>
-}
-
-#include "dvx_core_api.h"
-#include "dvx_stream.h"
+#include <dvx_stream.h>
 
 /// @brief Implementation of TQ decoding.
+/// @note TQ stands for Theather Quality.
 
 #define LIBDVX_VIDEO_SOURCE_MAX 255
 #define LIBDVX_BLACK_COLOR 0

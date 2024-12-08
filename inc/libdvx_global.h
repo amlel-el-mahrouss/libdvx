@@ -1,17 +1,16 @@
 /* -------------------------------------------
 
- Copyright (C) 2024, ELMH GROUP, all rights reserved.
+ Copyright (C) 2024, EL Mahrouss Amlal, all rights reserved.
 
 ------------------------------------------- */
 
 #ifndef DVX_GLOBAL_H
 #define DVX_GLOBAL_H
 
-#include <memory>
-#include <algorithm>
-#include <utility>
-#include <string>
-#include <stdexcept>
+extern "C" {
+#include <SDL2/SDL.h>
+}
+
 #include <unistd.h>
 #include <stdint.h>
 
