@@ -10,4 +10,4 @@
 
 Use BTB to build the decoder/encoder, it's free of use and cross-platform.
 
-###### Copyright (C) 2024 Amlal EL Mahrouss, all rights reserved. All rights reserved.
+###### Copyright (C) 2024 ELMH GROUP, all rights reserved. All rights reserved.
