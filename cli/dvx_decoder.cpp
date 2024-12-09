@@ -4,16 +4,33 @@
 
 ------------------------------------------- */
 
+#include <cstdio>
 #include <dvx_stream.h>
 #include <stdexcept>
 
 int main(int argc, char** argv)
 {
-	auto url = "dsp://endpoint/nil";
+    const char* url = nullptr;
 
-	// Get media URL.
-	if (argc > 2)
-		url = argv[1];
+	for (size_t i = 1UL; i < (argc); ++i)
+	{
+		if (strcmp(argv[i], "--codec") == 0)
+		{
+			std::printf("Name: DVX Theather Quality™\nVersion: 1.0.0\n");
+		}
+		else
+		{
+			url = argv[i];
+			break;
+		}
+
+		return LIBDVX_SUCCESS;
+	}
+
+	if (!url)
+	{
+	    return LIBDVX_FAILURE;
+	}
 
 	try
 	{

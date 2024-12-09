@@ -4,8 +4,11 @@
 
 ------------------------------------------- */
 
-.section .copyright
+.data
 
-.asciiz "ELMH GROUP, 2024"
+.global __copyright_decompress_s
+
+__copyright_decompress_s:
+.asciz  "ELMH GROUP, 2024"
 
 .text

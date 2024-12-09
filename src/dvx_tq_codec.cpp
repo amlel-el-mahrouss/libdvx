@@ -7,7 +7,7 @@
 #include <dvx_stream.h>
 #include <filesystem>
 #include <fstream>
-// #include <dvx_lca.h>
+#include <dvx_lca.h>
 
 /// @brief Implementation of TQ decoding.
 /// @note TQ stands for Theather Quality.
@@ -30,6 +30,9 @@ namespace TQ
 		bool tq_encode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
+				return false;
+
+			if (!out_region_sz || !in_region_sz)
 				return false;
 
 			if (!in_region ||
@@ -66,6 +69,9 @@ namespace TQ
 		bool tq_decode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
+				return false;
+
+			if (!out_region_sz || !in_region_sz)
 				return false;
 
 			if (!in_region ||

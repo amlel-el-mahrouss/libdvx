@@ -1,14 +1,16 @@
 {
-  "compiler_path": "emcc",
+  "compiler_path": "g++",
   "compiler_std": "c++20",
   "headers_path": ["inc"],
   "sources_path": [
-    "src/dvx_decoder.cpp",
+    "cli/dvx_decoder.cpp",
     "src/dvx_core_api.cpp",
     "src/dvx_tq_codec.cpp",
-    "src/dvx_stream.cpp"
+    "src/dvx_stream.cpp",
+    "src/amd64/dvx_tq_compress.s",
+    "src/amd64/dvx_tq_decompress.s"
   ],
-  "output_name": "DVX.js",
+  "output_name": "DVXDecode.exe",
   "compiler_flags": [],
   "run_after_build": false
 }

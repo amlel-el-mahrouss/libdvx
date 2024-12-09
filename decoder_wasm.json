@@ -3,12 +3,12 @@
   "compiler_std": "c++20",
   "headers_path": ["inc"],
   "sources_path": [
-    "src/dvx_decoder.cpp",
+    "cli/dvx_decoder.cpp",
     "src/dvx_core_api.cpp",
     "src/dvx_tq_codec.cpp",
     "src/dvx_stream.cpp"
   ],
-  "output_name": "DVXDecoder.exe",
+  "output_name": "DVX.js",
   "compiler_flags": [],
   "run_after_build": false
 }

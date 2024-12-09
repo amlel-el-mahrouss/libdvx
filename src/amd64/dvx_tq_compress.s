@@ -4,8 +4,15 @@
 
 ------------------------------------------- */
 
-.section .copyright
+.global  __copyright_compress_s
 
-.asciiz "ELMH GROUP, 2024"
+__copyright_compress_s:
+.asciz "ELMH GROUP, 2024"
 
 .text
+
+.global dvx_compress_blob
+
+dvx_compress_blob:
+
+    ret
