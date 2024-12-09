@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 {
 	if (argc < 2)
 	{
-		return EXIT_FAILURE;
+		return LIBDVX_FAILURE;
 	}
 
 	std::printf("DVX Encoder: Encoding File: %s\n", argv[1]);
@@ -31,5 +31,5 @@ int main(int argc, char** argv)
 
 	dvx_close_stream(interface_codec);
 
-	return EXIT_SUCCESS;
+	return LIBDVX_SUCCESS;
 }
