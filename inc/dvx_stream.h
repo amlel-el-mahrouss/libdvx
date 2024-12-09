@@ -54,6 +54,9 @@ LIBDVX_PACKED(struct DVX_CONTAINER_HEADER final
 
     char h_author[255];
     char h_copyright[255];
+    char h_company[255];
+
+    int8_t h_stars_in_5;
 
     int32_t h_year;
 };)

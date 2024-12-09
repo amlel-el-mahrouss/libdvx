@@ -6,7 +6,7 @@
 
 #include <dvx_stream.h>
 
-LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* path_or_url);
+LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_tq_codec(const char* path_or_url);
 
 /**********************************************************************
  *
@@ -16,7 +16,7 @@ LIBDVX_EXTERN_C DVXStreamInterface* dvx_open_fav_codec(const char* path_or_url);
 
 DVXStreamInterface* dvx_open_stream(const char* path_or_url)
 {
-	DVXStreamInterface* strm = dvx_open_fav_codec(path_or_url);
+	DVXStreamInterface* strm = dvx_open_tq_codec(path_or_url);
 
     if (!strm)
     {

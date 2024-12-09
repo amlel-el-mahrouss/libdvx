@@ -5,7 +5,7 @@
   "sources_path": [
     "cli/dvx_encoder.cpp",
     "src/dvx_core_api.cpp",
-    "src/dvx_platform_tq.cpp",
+    "src/dvx_tq_codec.cpp",
     "src/dvx_stream.cpp"
   ],
   "output_name": "DVXEncode.exe",

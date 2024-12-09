@@ -7,9 +7,13 @@
 #include <dvx_stream.h>
 #include <stdexcept>
 
-int main(void)
+int main(int argc, char** argv)
 {
-	auto url = "nil";
+	auto url = "dsp://endpoint/nil";
+
+	// Get media URL.
+	if (argc > 2)
+		url = argv[1];
 
 	try
 	{
@@ -28,7 +32,7 @@ int main(void)
 	}
 	catch (std::runtime_error& err)
 	{
-	    std::printf("%s", err.what());
+		std::printf("%s", err.what());
 	}
 
 	return LIBDVX_SUCCESS;
