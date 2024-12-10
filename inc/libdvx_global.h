@@ -18,14 +18,15 @@
 #define LIBDVX_EXTERN_C extern "C"
 
 #ifdef __GNUC__
+#define LIBDVX_COMPILER "GNU C++"
 #define LIBDVX_PACKED( DECL ) DECL __attribute__((__packed__))
 #endif
 
 #ifdef _MSC_VER
+#define LIBDVX_COMPILER "MSVC C++"
 #define LIBDVX_PACKED( DECL ) __pragma( pack(push, 1) ) DECL __pragma( pack(pop))
 #endif
 
-#define LIBDVX_COMPILER "MinGW C++"
 
 #define LIBDVX_VERSION (0x1000)
 #define LIBDVX_SUCCESS (0)

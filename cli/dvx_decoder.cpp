@@ -4,9 +4,10 @@
 
 ------------------------------------------- */
 
-#include <cstdio>
 #include <dvx_stream.h>
 #include <stdexcept>
+#include <cstdio>
+#include <cstring>
 
 int main(int argc, char** argv)
 {

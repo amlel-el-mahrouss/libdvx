@@ -5,9 +5,8 @@
 ------------------------------------------- */
 
 #include <dvx_stream.h>
+#include <dvx_formats.h>
 #include <filesystem>
-#include <fstream>
-#include <dvx_lca.h>
 
 /// @brief Implementation of TQ decoding.
 /// @note TQ stands for Theather Quality.
@@ -18,23 +17,9 @@
 
 namespace TQ
 {
-	namespace Details
+	namespace Encoders
 	{
-		struct DVX_ENCODE_FORMAT final
-		{
-			uint8_t	 encode_ratio;
-			uint32_t n_cnt;
-			uint8_t	 red_c, green_c, blue_c;
-			uint8_t	 alpha_c;
-		};
-
-		struct DVX_ENCODE_FORMAT_RAW final
-		{
-			uint8_t red_c, green_c, blue_c;
-			uint8_t alpha_c;
-		};
-
-		bool tq_transfer_encoded_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
+		bool tq_transfer_encoded_region(struct TQ_VIDEO_FORMAT* in_region, struct TQ_VIDEO_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
 				return false;
@@ -74,7 +59,7 @@ namespace TQ
 			return true;
 		}
 
-		bool tq_decode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT_RAW* out_region, size_t in_region_sz, size_t out_region_sz)
+		bool tq_decode_region(struct TQ_VIDEO_FORMAT* in_region, struct TQ_VIDEO_FORMAT_RAW* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
 				return false;
@@ -112,7 +97,7 @@ namespace TQ
 
 			return true;
 		}
-	} // namespace Details
+	} // namespace Encoders
 
 	/// @brief Stream interface for the TQ algorithm.
 	class TQStreamInterface LIBDVX_STREAM
@@ -200,7 +185,7 @@ namespace TQ
 			this->m_encoded_blob = in;
 			this->m_encoded_size = in_sz;
 
-			return Details::tq_decode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT_RAW*)out, in_sz, out_sz);
+			return Encoders::tq_decode_region((Encoders::TQ_VIDEO_FORMAT*)in, (Encoders::TQ_VIDEO_FORMAT_RAW*)out, in_sz, out_sz);
 		}
 
 		virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) override
@@ -214,9 +199,9 @@ namespace TQ
 			this->m_encoded_blob = out;
 			this->m_encoded_size = out_sz;
 
-			// Details::tq_encode_region((Details::DVX_ENCODE_FORMAT*)in, in_sz);
+			// Encoders::tq_encode_region((Encoders::TQ_VIDEO_FORMAT*)in, in_sz);
 
-			return Details::tq_transfer_encoded_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
+			return Encoders::tq_transfer_encoded_region((Encoders::TQ_VIDEO_FORMAT*)in, (Encoders::TQ_VIDEO_FORMAT*)out, in_sz, out_sz);
 		}
 
 	private:

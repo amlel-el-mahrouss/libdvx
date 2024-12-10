@@ -14,13 +14,12 @@
 
 #define LIBDVX_STREAM : public ::DVXStreamInterface
 
-struct DVX_CONTAINER;
-struct DVX_CONTAINER_HEADER;
-
-class DVXStreamInterface;
-
 #define LIBDVX_CONTAINER_MAGIC (0xDD775)
 #define LIBDVX_CONTAINER_VERSION LIBDVX_VERSION
+
+struct DVX_CONTAINER;
+struct DVX_CONTAINER_HEADER;
+class DVXStreamInterface;
 
 enum class DVXStreamKind : int32_t
 {
