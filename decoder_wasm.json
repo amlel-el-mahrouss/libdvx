@@ -5,10 +5,11 @@
   "sources_path": [
     "cli/dvx_decoder.cpp",
     "src/dvx_core_api.cpp",
-    "src/dvx_tq_codec.cpp",
+    "src/dvx_tq_encoding.cpp",
+    "src/dvx_tq_multiplexing.cpp",
     "src/dvx_stream.cpp"
   ],
-  "output_name": "DVX.js",
+  "output_name": "DVXPlyr.js",
   "compiler_flags": [],
   "run_after_build": false
 }

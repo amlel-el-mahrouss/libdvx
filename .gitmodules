@@ -1,0 +1,3 @@
+[submodule "vendor/mdk"]
+	path = vendor/mdk
+	url = git@github.com:ELMH-Group/mdk.git

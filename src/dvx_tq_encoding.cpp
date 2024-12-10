@@ -25,9 +25,16 @@ namespace TQ
 			uint8_t	 encode_ratio;
 			uint32_t n_cnt;
 			uint8_t	 red_c, green_c, blue_c;
+			uint8_t	 alpha_c;
 		};
 
-		bool tq_encode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
+		struct DVX_ENCODE_FORMAT_RAW final
+		{
+			uint8_t red_c, green_c, blue_c;
+			uint8_t alpha_c;
+		};
+
+		bool tq_transfer_encoded_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
 				return false;
@@ -55,6 +62,7 @@ namespace TQ
 				out_region[region_idx].red_c   = diff_r;
 				out_region[region_idx].green_c = diff_g;
 				out_region[region_idx].blue_c  = diff_b;
+				out_region[region_idx].alpha_c = in_region[region_idx].alpha_c;
 
 				++region_idx;
 
@@ -66,7 +74,7 @@ namespace TQ
 			return true;
 		}
 
-		bool tq_decode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT* out_region, size_t in_region_sz, size_t out_region_sz)
+		bool tq_decode_region(struct DVX_ENCODE_FORMAT* in_region, struct DVX_ENCODE_FORMAT_RAW* out_region, size_t in_region_sz, size_t out_region_sz)
 		{
 			if (out_region_sz < in_region_sz)
 				return false;
@@ -93,9 +101,10 @@ namespace TQ
 
 				for (size_t cnt_index = region_idx; cnt_index < (n_cnt); ++cnt_index)
 				{
-					out_region[cnt_index].red_c	  = diff_r + ratio;
-					out_region[cnt_index].green_c = diff_g + ratio;
-					out_region[cnt_index].blue_c  = diff_b + ratio;
+					out_region[cnt_index].red_c	   = diff_r + ratio;
+					out_region[cnt_index].green_c  = diff_g + ratio;
+					out_region[cnt_index].blue_c   = diff_b + ratio;
+					out_region[region_idx].alpha_c = in_region[region_idx].alpha_c;
 				}
 
 				++region_idx;
@@ -157,6 +166,17 @@ namespace TQ
 
 		virtual void Finish() noexcept override
 		{
+		    if (this->IsLocked())
+				return;
+
+		    if (this->m_encoded_blob)
+				this->m_encoded_blob = nullptr;
+
+			this->m_encoded_size = 0UL;
+			this->m_file_size = 0UL;
+			this->m_uri_path = "";
+			this->m_avg_ratio = 0UL;
+			this->m_container_cnt = 0UL;
 		}
 
 		virtual void Lock() override
@@ -174,10 +194,13 @@ namespace TQ
 			if (!in || !out)
 				return false;
 
+			if (!in_sz || out_sz)
+				return false;
+
 			this->m_encoded_blob = in;
 			this->m_encoded_size = in_sz;
 
-			return Details::tq_decode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
+			return Details::tq_decode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT_RAW*)out, in_sz, out_sz);
 		}
 
 		virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) override
@@ -185,10 +208,15 @@ namespace TQ
 			if (!in || !out)
 				return false;
 
+			if (!in_sz || out_sz)
+				return false;
+
 			this->m_encoded_blob = out;
 			this->m_encoded_size = out_sz;
 
-			return Details::tq_encode_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
+			// Details::tq_encode_region((Details::DVX_ENCODE_FORMAT*)in, in_sz);
+
+			return Details::tq_transfer_encoded_region((Details::DVX_ENCODE_FORMAT*)in, (Details::DVX_ENCODE_FORMAT*)out, in_sz, out_sz);
 		}
 
 	private:

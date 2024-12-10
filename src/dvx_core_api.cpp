@@ -5,7 +5,6 @@
 ------------------------------------------- */
 
 #include <dvx_core_api.h>
-#include <iostream>
 
 bool dvx_validate_url(const char* url, size_t url_len) noexcept
 {
@@ -29,7 +28,7 @@ bool dvx_validate_url(const char* url, size_t url_len) noexcept
 		}
 	}
 
-	std::cout << "Not an URL: " << url << "\n";
+	std::printf("Not an URL: %s\n", url);
 
 	return false;
 }

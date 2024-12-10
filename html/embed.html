@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DVX Video Player</title>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                background-color: #000;
+                font-family: Arial, sans-serif;
+            }
+
+            .title {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+                text-shadow: 0 0 10px rgba(147, 112, 219, 0.7);
+            }
+
+            .pause-button {
+                width: 80px;
+                height: 80px;
+                border-radius: 16px;
+                background: linear-gradient(135deg, #9370db, #ff1493);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                box-shadow: 0 0 20px rgba(147, 112, 219, 0.5);
+                transition:
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+
+            .pause-button:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(147, 112, 219, 0.7);
+            }
+
+            .pause-icon {
+                display: flex;
+                gap: 8px;
+            }
+
+            .pause-bar {
+                width: 8px;
+                height: 24px;
+                background-color: white;
+                border-radius: 2px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="../DVXPlyr.js"></script>
+        <h1 class="title" id="dvx-title">DVX - Untitled.</h1>
+        <div class="pause-button">
+            <div class="pause-icon">
+                <div class="pause-bar"></div>
+                <div class="pause-bar"></div>
+            </div>
+        </div>
+    </body>
+</html>
