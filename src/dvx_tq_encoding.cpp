@@ -181,7 +181,9 @@ namespace TQ
 			this->m_encoded_blob = in;
 			this->m_encoded_size = in_sz;
 
-			return Encoders::tq_decode_region((Encoders::TQ_VIDEO_FORMAT*)in, (Encoders::TQ_VIDEO_FORMAT_RAW*)out, in_sz, out_sz);
+			Encoders::tq_decode_region((Encoders::TQ_VIDEO_FORMAT*)in, (Encoders::TQ_VIDEO_FORMAT_RAW*)out, in_sz, out_sz);
+		
+			return false;
 		}
 
 		virtual bool Encode(size_t out_sz, size_t in_sz, void* in, void* out) override

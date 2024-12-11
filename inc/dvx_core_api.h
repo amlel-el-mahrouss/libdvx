@@ -12,6 +12,7 @@
 /// @brief DVX stream interface.
 class DVXStreamInterface;
 
+/// @brief DVX Exception type.
 using DVXException = std::runtime_error;
 
 typedef uintptr_t dvx_result_t;
