@@ -5,15 +5,11 @@
 ------------------------------------------- */
 
 #include <dvx_stream.h>
-#include <dvx_formats.h>
+#include <dvx_format.h>
 #include <filesystem>
 
 /// @brief Implementation of TQ decoding.
 /// @note TQ stands for Theather Quality.
-
-#define LIBDVX_VIDEO_SOURCE_MAX (255)
-#define LIBDVX_BLACK_COLOR		(0)
-#define LIBDVX_WHITE_COLOR		(255)
 
 namespace TQ
 {

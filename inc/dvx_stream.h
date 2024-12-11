@@ -11,54 +11,11 @@
 /// @author Amlal EL Mahrouss.
 
 #include <dvx_core_api.h>
+#include <dvx_format.h>
 
 #define LIBDVX_STREAM : public ::DVXStreamInterface
 
-#define LIBDVX_CONTAINER_MAGIC (0xDD775)
-#define LIBDVX_CONTAINER_VERSION LIBDVX_VERSION
-
-struct DVX_CONTAINER;
-struct DVX_CONTAINER_HEADER;
 class DVXStreamInterface;
-
-enum class DVXStreamKind : int32_t
-{
-    kInvalidContainer,
-    kDrmContainer,
-    kVideoContainer,
-    kAudioContainer,
-    kSubtitleContainer,
-    kContainerCount,
-};
-
-LIBDVX_PACKED(struct DVX_CONTAINER final
-{
-    char c_name[256];
-    DVXStreamKind c_type;
-    int32_t c_ratio;
-    size_t  c_size;
-    uintptr_t c_offset;
-};)
-
-
-LIBDVX_PACKED(struct DVX_CONTAINER_HEADER final
-{
-    int64_t h_magic;
-    int32_t h_version;
-    int32_t h_type;
-
-    size_t  h_file_size;
-    size_t  h_cont_num;
-    size_t  h_avg_ratio;
-
-    char h_author[255];
-    char h_copyright[255];
-    char h_company[255];
-
-    int8_t h_stars_in_5;
-
-    int32_t h_year;
-};)
 
 class DVXStreamInterface
 {

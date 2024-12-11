@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 	{
 		if (strcmp(argv[i], "--codec") == 0)
 		{
-			std::printf("Name: DVX Theather Quality™\nVersion: 1.0.0\n");
+			std::printf("Name: DVX Open Theather Quality.\nVersion: 1.0.0\n");
 		}
 		else
 		{
